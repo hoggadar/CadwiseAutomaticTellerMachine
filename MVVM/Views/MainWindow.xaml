@@ -4,9 +4,104 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CadwiseAutomaticTellerMachine"
+        xmlns:viewModel="clr-namespace:CadwiseAutomaticTellerMachine.MVVM.ViewModels"
+        xmlns:view="clr-namespace:CadwiseAutomaticTellerMachine.MVVM.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="AutomaticTellerMachine"
+        Height="600"
+        Width="850">
 
+    <Window.Resources>
+
+        <DataTemplate DataType="{x:Type viewModel:HomeViewModel}">
+            <view:HomeView/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type viewModel:HelpViewModel}">
+            <view:HelpView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:AboutViewModel}">
+            <view:AboutView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:AuthViewModel}">
+            <view:AuthView/>
+        </DataTemplate>
+
+    </Window.Resources>
+    
+    <Grid>
+        
+        <Border Background="#16171b">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Navigation Panel-->
+                <Border Grid.Column="0" Padding="12" Background="#202125">
+                    <StackPanel>
+                        <Button Style="{StaticResource NavButton}"
+                        Command="{Binding NavigateToHomeCommand}"
+                         Content="Главная"/>
+                        <Button Style="{StaticResource NavButton}"
+                        Command="{Binding NavigateToHelpCommand}"
+                        Content="Помощь"/>
+                        <Button Style="{StaticResource NavButton}"
+                        Command="{Binding NavigateToAboutCommand}"
+                        Content="О нас" />
+                    </StackPanel>
+                </Border>
+
+                <!--Application Content-->
+                <Border Grid.Column="1" Padding="8">
+
+                    <Grid>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <!--Header-->
+                        <Grid Grid.Row="0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Cadwise" FontSize="24" FontWeight="Bold"
+                                   Foreground="#01b075" VerticalAlignment="Center"
+                                   Margin="0,0,6,0"/>
+                                <TextBlock Text="Банкомат" FontSize="24" FontWeight="Bold"
+                                   Foreground="White" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!--Main content-->
+                        <Grid Grid.Row="1">
+                            <ContentControl Content="{Binding NavigationService.CurrentView}"/>
+                        </Grid>
+
+                        <!--Footer-->
+                        <Grid Grid.Row="2">
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                                <TextBlock Text="© 2024 Cadwise. Все права защищены."
+                                   Style="{StaticResource BaseText}"/>
+                            </StackPanel>
+
+                        </Grid>
+
+                    </Grid>
+
+                </Border>
+
+            </Grid>
+
+        </Border>
+        
     </Grid>
 </Window>
