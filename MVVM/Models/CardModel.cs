@@ -21,7 +21,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.Models
 
         [ForeignKey("UserId")]
         public int UserId { get; set; }
-        public UserModel? Author { get; set; }
+        public UserModel? User { get; set; }
 
         public ICollection<TransactionLogModel>? TransactionLogs { get; set; }
     }

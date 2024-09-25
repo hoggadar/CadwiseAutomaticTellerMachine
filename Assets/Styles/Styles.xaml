@@ -36,9 +36,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border MinWidth="80"
+                    <Border MinWidth="50"
                     Padding="10, 5"
-                    Margin="0, 0, 8, 0"
                     CornerRadius="6"
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}">
@@ -57,6 +56,51 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style x:Key="CustomTextBox" TargetType="TextBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="10,0,0,0"/>
+        <Setter Property="BorderBrush" Value="#01b075"/>
+        <Setter Property="Cursor" Value="IBeam"/>
+        <Setter Property="CaretBrush" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Grid x:Name="root" 
+                      Height="{TemplateBinding Height}" 
+                      Width="{TemplateBinding Width}" 
+                      SnapsToDevicePixels="True">
+                        <Border x:Name="BackgroundBorder" 
+                            BorderThickness="2" 
+                            CornerRadius="4" 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                        </Border>
+                        <ScrollViewer x:Name="PART_ContentHost" 
+                                  BorderThickness="9" 
+                                  Padding="{TemplateBinding Padding}" 
+                                  IsTabStop="False" 
+                                  Background="Transparent">
+                        </ScrollViewer>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BackgroundBorder" Property="BorderBrush" Value="#01b075"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="BackgroundBorder" Property="BorderBrush" Value="#017a5d"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <Style x:Key="BaseText" TargetType="TextBlock">
         <Setter Property="FontSize" Value="14"/>

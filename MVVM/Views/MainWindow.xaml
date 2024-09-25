@@ -58,7 +58,7 @@
                 </Border>
 
                 <!--Application Content-->
-                <Border Grid.Column="1" Padding="8">
+                <Border Grid.Column="1" Padding="20,8">
 
                     <Grid>
 

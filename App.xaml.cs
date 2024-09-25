@@ -1,14 +1,18 @@
-﻿using CadwiseAutomaticTellerMachine.MVVM.Navigation;
+﻿using CadwiseAutomaticTellerMachine.Business.Interfaces;
+using CadwiseAutomaticTellerMachine.Business.Services;
+using CadwiseAutomaticTellerMachine.Infrastructure.Data;
+using CadwiseAutomaticTellerMachine.Infrastructure.Repositories;
+using CadwiseAutomaticTellerMachine.MVVM.Interfaces;
+using CadwiseAutomaticTellerMachine.MVVM.Navigation;
 using CadwiseAutomaticTellerMachine.MVVM.ViewModels;
 using CadwiseAutomaticTellerMachine.MVVM.Views;
+using CadwiseAutomaticTellerMachine.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
 namespace CadwiseAutomaticTellerMachine
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         private readonly IServiceProvider _serviceProvider;
@@ -39,12 +43,19 @@ namespace CadwiseAutomaticTellerMachine
             services.AddSingleton<AboutViewModel>();
             services.AddSingleton<AuthViewModel>();
             services.AddSingleton<INavigationService, NavigationService>();
+            services.AddSingleton<IAuthService, AuthService>();
             services.AddSingleton<Func<Type, ViewModelBase>>(_serviceProvider => viewModelType =>
             {
                 return (ViewModelBase)_serviceProvider.GetRequiredService(viewModelType);
             });
-
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseNpgsql("Server=localhost;Port=5432;Database=atm;Username=admin;Password=admin");
+            });
+            services.AddScoped<ICardRepository, CardRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICardService, CardService>();
+            services.AddScoped<IUserService, UserService>();
         }
     }
-
 }
