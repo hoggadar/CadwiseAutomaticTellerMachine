@@ -22,17 +22,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
             _navigationService = navigationService;
             _authService = authService;
             dto = new AuthDto();
-            AuthCommand = new RelayCommand(async _ =>
-            {
-                if (await _authService.AuthUser(dto))
-                {
-                    MessageBox.Show("Ok");
-                }
-                else
-                {
-                    MessageBox.Show("Error");
-                }
-            }, _ => true);
+            AuthCommand = new RelayCommand(async _ => await NavigateToService(), _ => true);
         }
 
         public INavigationService NavigationService
@@ -42,6 +32,18 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
             {
                 _navigationService = value;
                 OnPropertyChanged(nameof(NavigationService));
+            }
+        }
+
+        public async Task NavigateToService()
+        {
+            if (await _authService.AuthUser(dto))
+            {
+                NavigationService.NavigateTo<ServiceViewModel>();
+            }
+            else
+            {
+                MessageBox.Show("Некорректный номер или pin карты");
             }
         }
 

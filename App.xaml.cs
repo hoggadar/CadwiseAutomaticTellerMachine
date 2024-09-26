@@ -42,6 +42,9 @@ namespace CadwiseAutomaticTellerMachine
             services.AddSingleton<HelpViewModel>();
             services.AddSingleton<AboutViewModel>();
             services.AddSingleton<AuthViewModel>();
+            services.AddSingleton<ServiceViewModel>();
+            services.AddSingleton<BalanceViewModel>();
+            services.AddSingleton<WithdrawMoneyViewModel>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IAuthService, AuthService>();
             services.AddSingleton<Func<Type, ViewModelBase>>(_serviceProvider => viewModelType =>
