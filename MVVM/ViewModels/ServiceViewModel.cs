@@ -10,12 +10,18 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
 
         public ICommand GetBalanceCommand { get; }
         public ICommand WithdrawMoneyCommand { get; }
+        public ICommand NavigateToAuthCommand { get; }
+
 
         public ServiceViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
             GetBalanceCommand = new RelayCommand(_ => NavigationService.NavigateTo<BalanceViewModel>(), _ => true);
-            WithdrawMoneyCommand = new RelayCommand(_ => NavigationService.NavigateTo<WithdrawMoneyViewModel>(), _ => true);
+            WithdrawMoneyCommand = new RelayCommand(_ =>
+            {
+                NavigationService.NavigateTo<WithdrawMoneyViewModel>();
+            }, _ => true);
+            NavigateToAuthCommand = new RelayCommand(_ => NavigationService.NavigateTo<AuthViewModel>(), _ => true);
         }
 
         public INavigationService NavigationService

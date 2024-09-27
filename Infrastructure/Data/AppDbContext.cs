@@ -9,7 +9,7 @@ namespace CadwiseAutomaticTellerMachine.Infrastructure.Data
         public DbSet<CardModel> Cards { get; set; }
         public DbSet<TransactionLogModel> TransactionLogs { get; set; }
         public DbSet<BanknoteModel> Banknotes { get; set; }
-        public DbSet<ATMModel> ATMs { get; set; }
+        public DbSet<StorageModel> Storages { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 

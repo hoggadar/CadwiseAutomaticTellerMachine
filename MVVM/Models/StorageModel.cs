@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace CadwiseAutomaticTellerMachine.MVVM.Models
 {
-    public class ATMModel
+    public class StorageModel
     {
         [Key]
         public int Id { get; set; }

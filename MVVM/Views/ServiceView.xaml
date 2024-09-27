@@ -5,28 +5,53 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CadwiseAutomaticTellerMachine.MVVM.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="468" d:DesignWidth="650">
     <Grid>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0"
+        <!--Title-->
+        <StackPanel Grid.Row="0" VerticalAlignment="Center">
+            <TextBlock Text="Доступные операции"
+                       FontSize="24" FontWeight="Bold"
+                       Foreground="White"/>
+        </StackPanel>
+
+        <!--Client-->
+        <StackPanel Grid.Row="1" Orientation="Horizontal"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Клиент:"
+                       FontSize="18" FontWeight="Bold"
+                       Foreground="White" Margin="0,0,8,0"/>
+            <TextBlock Text="{Binding UserFullName}"
+                       FontSize="18" FontWeight="Bold"
+                       Foreground="White"/>
+        </StackPanel>
+
+        <!--Control Panel-->
+        <StackPanel Grid.Row="3"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            
-            <Button Style="{StaticResource PrimaryButton}" 
-                    Command="{Binding GetBalanceCommand}"
-                    Content="Посмотреть баланс"/>
-            
-            <Button Style="{StaticResource PrimaryButton}" 
-                    Command="{Binding WithdrawMoneyCommand}"
-                    Content="Снять средства"
-                    Margin="10,0,0,0"/>
-            
+            <Button Content="Назад"
+                    Style="{StaticResource PrimaryButton}"
+                    Margin="0,0,10,0"
+                    Command="{Binding NavigateToAuthCommand}"/>
+
+            <Button Content="Посмотреть баланс"
+                    Style="{StaticResource PrimaryButton}"
+                    Margin="0,0,10,0"
+                    Command="{Binding GetBalanceCommand}"/>
+
+            <Button Content="Снять средства"
+                    Style="{StaticResource PrimaryButton}" 
+                    Command="{Binding WithdrawMoneyCommand}"/>
         </StackPanel>
-        
+
     </Grid>
 </UserControl>

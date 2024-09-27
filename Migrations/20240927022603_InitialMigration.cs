@@ -39,7 +39,7 @@ namespace CadwiseAutomaticTellerMachine.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ATMs",
+                name: "Storages",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -49,9 +49,9 @@ namespace CadwiseAutomaticTellerMachine.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ATMs", x => x.Id);
+                    table.PrimaryKey("PK_Storages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ATMs_Banknotes_BanknoteId",
+                        name: "FK_Storages_Banknotes_BanknoteId",
                         column: x => x.BanknoteId,
                         principalTable: "Banknotes",
                         principalColumn: "Id",
@@ -67,17 +67,17 @@ namespace CadwiseAutomaticTellerMachine.Migrations
                     Number = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
                     PIN = table.Column<string>(type: "character varying(4)", maxLength: 4, nullable: false),
                     Cash = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    AuthorId = table.Column<int>(type: "integer", nullable: true)
+                    UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cards_Users_AuthorId",
-                        column: x => x.AuthorId,
+                        name: "FK_Cards_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,14 +103,14 @@ namespace CadwiseAutomaticTellerMachine.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ATMs_BanknoteId",
-                table: "ATMs",
-                column: "BanknoteId");
+                name: "IX_Cards_UserId",
+                table: "Cards",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cards_AuthorId",
-                table: "Cards",
-                column: "AuthorId");
+                name: "IX_Storages_BanknoteId",
+                table: "Storages",
+                column: "BanknoteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TransactionLogs_CardId",
@@ -122,7 +122,7 @@ namespace CadwiseAutomaticTellerMachine.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ATMs");
+                name: "Storages");
 
             migrationBuilder.DropTable(
                 name: "TransactionLogs");

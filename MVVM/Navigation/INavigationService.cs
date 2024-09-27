@@ -6,5 +6,6 @@ namespace CadwiseAutomaticTellerMachine.MVVM.Navigation
     {
         ViewModelBase CurrentView { get; }
         void NavigateTo<TViewModel>() where TViewModel : ViewModelBase;
+        event Action NavigatedTo;
     }
 }

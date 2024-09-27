@@ -5,19 +5,79 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CadwiseAutomaticTellerMachine.MVVM.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="468" d:DesignWidth="650">
     <Grid>
+
         <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" 
+        <!--Title-->
+        <StackPanel Grid.Row="0" VerticalAlignment="Center">
+            <TextBlock Text="Снятие наличных"
+                       FontSize="24" FontWeight="Bold"
+                       Foreground="White"/>
+        </StackPanel>
+
+        <!--Client-->
+        <StackPanel Grid.Row="1" Orientation="Horizontal"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Клиент:"
+                       FontSize="18" FontWeight="Bold"
+                       Foreground="White" Margin="0,0,8,0"/>
+            <TextBlock Text="{Binding UserFullName}"
+                       FontSize="18" FontWeight="Bold"
+                       Foreground="White"/>
+        </StackPanel>
+
+        <!--User Balance-->
+        <StackPanel Grid.Row="2" Orientation="Horizontal"
+            VerticalAlignment="Center">
+            <TextBlock Text="Баланс:"
+                       FontSize="18" FontWeight="Bold"
+                       Foreground="White" Margin="0,0,8,0"/>
+            <TextBlock Text="{Binding UserBalance}"
+                       FontSize="18" FontWeight="Bold"
+                       Foreground="White" />
+        </StackPanel>
+        
+        <!--ATM Balance-->
+        <StackPanel Grid.Row="3" Orientation="Horizontal"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Доступно:"
+                       FontSize="18" FontWeight="Bold"
+                       Foreground="White" Margin="0,0,8,0"/>
+            <TextBlock Text="{Binding ATMBalance}"
+                       FontSize="18" FontWeight="Bold"
+                       Foreground="White" />
+        </StackPanel>
+
+        <Border Grid.Row="4" Padding="220,0">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Введите сумму"
+                           FontSize="16" Foreground="White"
+                           Margin="0,0,0,6"/>
+                <TextBox Text="{Binding UserMoneyRequest, Mode=TwoWay}"
+                         Style="{StaticResource CustomTextBox}"/>
+            </StackPanel>
+        </Border>
+
+        <!--Control Panel-->
+        <StackPanel Grid.Row="5" Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-
-            <TextBlock Text="Withdraw Money"
-               Foreground="White"/>
-
+            <Button Content="Назад"
+                    Command="{Binding NavigateToServiceCommand}"
+                    Style="{StaticResource PrimaryButton}" Margin="0,0,8,0"/>
+            <Button Content="Снять"
+                    Command="{Binding WithdrawMoneyCommand}"
+                    Style="{StaticResource PrimaryButton}" />
         </StackPanel>
+        
     </Grid>
 </UserControl>

@@ -6,6 +6,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.Navigation
     {
         private readonly Func<Type, ViewModelBase> _viewModelFactory;
         private ViewModelBase _currentView;
+        public event Action NavigatedTo;
 
         public ViewModelBase CurrentView
         {
@@ -26,6 +27,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.Navigation
         {
             ViewModelBase viewModelBase = _viewModelFactory.Invoke(typeof(TViewModel));
             CurrentView = viewModelBase;
+            NavigatedTo?.Invoke();
         }
     }
 }

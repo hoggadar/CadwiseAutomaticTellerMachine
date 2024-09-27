@@ -10,6 +10,6 @@ namespace CadwiseAutomaticTellerMachine.MVVM.Models
         [Required]
         public int Denomination { get; set; }
 
-        public ICollection<ATMModel>? ATMs { get; set; }
+        public ICollection<StorageModel>? Storages { get; set; }
     }
 }

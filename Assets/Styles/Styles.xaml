@@ -37,12 +37,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border MinWidth="50"
-                    Padding="10, 5"
-                    CornerRadius="6"
+                    Padding="18, 7"
+                    CornerRadius="12"
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}">
                         <TextBlock VerticalAlignment="Center"
-                           FontSize="14"
+                           FontSize="22"
                            FontWeight="Bold"
                            Foreground="White"
                            Text="{TemplateBinding Content}"/>

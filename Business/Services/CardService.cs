@@ -22,5 +22,15 @@ namespace CadwiseAutomaticTellerMachine.Business.Services
         {
             return await _cardRepository.GetByNumber(number);
         }
+
+        public async Task<CardModel?> GetByUserId(int userId)
+        {
+            return await _cardRepository.GetByUserId(userId);
+        }
+
+        public async Task Update(CardModel card)
+        {
+            await _cardRepository.Update(card);
+        }
     }
 }

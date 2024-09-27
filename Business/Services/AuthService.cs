@@ -11,6 +11,7 @@ namespace CadwiseAutomaticTellerMachine.Services
         private readonly IUserService _userService;
 
         private UserModel? _currentUser;
+        private CardModel? _currentCard;
 
         public AuthService(ICardService cardService, IUserService userService)
         {
@@ -29,10 +30,13 @@ namespace CadwiseAutomaticTellerMachine.Services
             if (dto.CardPIN == card.PIN)
             {
                 CurrentUser = user;
+                CurrentCard = card;
                 return true;
             }
 
             CurrentUser = null;
+            CurrentCard = null;
+
             return false;
         }
 
@@ -43,6 +47,16 @@ namespace CadwiseAutomaticTellerMachine.Services
             {
                 _currentUser = value;
                 OnPropertyChanged(nameof(CurrentUser));
+            }
+        }
+
+        public CardModel? CurrentCard
+        {
+            get => _currentCard;
+            private set
+            {
+                _currentCard = value;
+                OnPropertyChanged(nameof(CurrentCard));
             }
         }
     }

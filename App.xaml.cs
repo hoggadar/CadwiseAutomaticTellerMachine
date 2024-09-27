@@ -57,8 +57,10 @@ namespace CadwiseAutomaticTellerMachine
             });
             services.AddScoped<ICardRepository, CardRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IStorageRepository, StorageRepository>();
             services.AddScoped<ICardService, CardService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IStorageService, StorageService>();
         }
     }
 }

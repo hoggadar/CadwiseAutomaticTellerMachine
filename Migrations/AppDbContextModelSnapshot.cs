@@ -21,27 +21,6 @@ namespace CadwiseAutomaticTellerMachine.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CadwiseAutomaticTellerMachine.MVVM.Models.ATMModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BanknoteId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BanknoteId");
-
-                    b.ToTable("ATMs");
-                });
-
             modelBuilder.Entity("CadwiseAutomaticTellerMachine.MVVM.Models.BanknoteModel", b =>
                 {
                     b.Property<int>("Id")
@@ -87,6 +66,27 @@ namespace CadwiseAutomaticTellerMachine.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Cards");
+                });
+
+            modelBuilder.Entity("CadwiseAutomaticTellerMachine.MVVM.Models.StorageModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BanknoteId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BanknoteId");
+
+                    b.ToTable("Storages");
                 });
 
             modelBuilder.Entity("CadwiseAutomaticTellerMachine.MVVM.Models.TransactionLogModel", b =>
@@ -137,17 +137,6 @@ namespace CadwiseAutomaticTellerMachine.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("CadwiseAutomaticTellerMachine.MVVM.Models.ATMModel", b =>
-                {
-                    b.HasOne("CadwiseAutomaticTellerMachine.MVVM.Models.BanknoteModel", "Banknote")
-                        .WithMany("ATMs")
-                        .HasForeignKey("BanknoteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Banknote");
-                });
-
             modelBuilder.Entity("CadwiseAutomaticTellerMachine.MVVM.Models.CardModel", b =>
                 {
                     b.HasOne("CadwiseAutomaticTellerMachine.MVVM.Models.UserModel", "User")
@@ -157,6 +146,17 @@ namespace CadwiseAutomaticTellerMachine.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CadwiseAutomaticTellerMachine.MVVM.Models.StorageModel", b =>
+                {
+                    b.HasOne("CadwiseAutomaticTellerMachine.MVVM.Models.BanknoteModel", "Banknote")
+                        .WithMany("Storages")
+                        .HasForeignKey("BanknoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Banknote");
                 });
 
             modelBuilder.Entity("CadwiseAutomaticTellerMachine.MVVM.Models.TransactionLogModel", b =>
@@ -172,7 +172,7 @@ namespace CadwiseAutomaticTellerMachine.Migrations
 
             modelBuilder.Entity("CadwiseAutomaticTellerMachine.MVVM.Models.BanknoteModel", b =>
                 {
-                    b.Navigation("ATMs");
+                    b.Navigation("Storages");
                 });
 
             modelBuilder.Entity("CadwiseAutomaticTellerMachine.MVVM.Models.CardModel", b =>
