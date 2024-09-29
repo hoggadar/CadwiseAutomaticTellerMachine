@@ -9,5 +9,6 @@ namespace CadwiseAutomaticTellerMachine.Business.Interfaces
         Task<CardModel?> GetByNumber(string number);
         Task<CardModel?> GetByUserId(int userId);
         Task Update(CardModel card);
+        Task IncreaseCash();
     }
 }

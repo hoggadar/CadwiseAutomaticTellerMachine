@@ -18,6 +18,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
             NavigateToHomeCommand = new RelayCommand(_ => NavigationService.NavigateTo<HomeViewModel>(), _ => true);
             NavigateToHelpCommand = new RelayCommand(_ => NavigationService.NavigateTo<HelpViewModel>(), _ => true);
             NavigateToAboutCommand = new RelayCommand(_ => NavigationService.NavigateTo<AboutViewModel>(), _ => true);
+            NavigationService.NavigateTo<HomeViewModel>();
         }
         public INavigationService NavigationService
         {

@@ -26,7 +26,9 @@ namespace CadwiseAutomaticTellerMachine.Infrastructure.Repositories
                 {
                     Denomination = x.Banknote!.Denomination,
                     Quantity = x.Quantity,
-                }).ToListAsync();
+                })
+                .OrderByDescending(x => x.Denomination)
+                .ToListAsync();
         }
 
         public async Task UpdateBanknotesQuantity(List<BanknoteQuantityDto> banknotesQuantity)
@@ -48,6 +50,24 @@ namespace CadwiseAutomaticTellerMachine.Infrastructure.Repositories
                 {
                     throw new InvalidOperationException($"Ошибка изменения количества купюр в банкомате");
                 }
+            }
+        }
+
+        public async Task IncreaseBanknoteQuantity(List<BanknoteQuantityDto> banknotesQuantity)
+        {
+            foreach(var banknoteQuantity in banknotesQuantity)
+            {
+                var storage = await _context.Storages
+                   .Include(x => x.Banknote)
+                   .FirstOrDefaultAsync(x => x.Banknote!.Denomination == banknoteQuantity.Denomination);
+
+                if (storage != null)
+                {
+                    int maxAdditionalQuantity = 100 - storage.Quantity;
+                    int quantityToAdd = Math.Min(banknoteQuantity.Quantity, maxAdditionalQuantity);
+                    storage.Quantity += quantityToAdd;
+                    await Update(storage);
+                } 
             }
         }
     }

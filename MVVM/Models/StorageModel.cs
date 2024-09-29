@@ -9,6 +9,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.Models
         public int Id { get; set; }
 
         [Required]
+        [Range(0, 100)]
         public int Quantity { get; set; }
 
         [ForeignKey("BanknoteId")]

@@ -5,19 +5,29 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CadwiseAutomaticTellerMachine.MVVM.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="468" d:DesignWidth="650">
     <Grid>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0"
+        <!--Title-->
+        <StackPanel Grid.Row="0" VerticalAlignment="Center">
+            <TextBlock Text="Начало работы"
+                       Style="{StaticResource TitleText}"/>
+        </StackPanel>
+
+        <!--Control Panel-->
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <Button Style="{StaticResource PrimaryButton}"
-                    Command="{Binding StartCommand}"
-                    Content="Начать"/>
+            <Button Content="Начать"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding StartCommand}"/>
         </StackPanel>
 
     </Grid>

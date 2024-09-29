@@ -1,8 +1,8 @@
 ﻿using CadwiseAutomaticTellerMachine.Business.DTOs;
 using CadwiseAutomaticTellerMachine.Business.Interfaces;
 using CadwiseAutomaticTellerMachine.MVVM.Commands;
-using CadwiseAutomaticTellerMachine.MVVM.Models;
 using CadwiseAutomaticTellerMachine.MVVM.Navigation;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 
@@ -14,10 +14,11 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
         private IAuthService _authService;
         private IStorageService _storageService;
 
+        private ObservableCollection<BanknoteQuantityDto> _banknoteQuantity;
         private string _userFullName;
         private int _userBalance;
         private int _atmBalance;
-        private int _userMoneyRequest;
+        private int _moneyRequest;
         private List<BanknoteQuantityDto> _result;
 
         public ICommand NavigateToServiceCommand { get; }
@@ -29,6 +30,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
             _authService = authService;
             _storageService = storageService;
 
+            _banknoteQuantity = new ObservableCollection<BanknoteQuantityDto>();
             _userFullName = string.Empty;
             _userBalance = 0;
             _atmBalance = 0;
@@ -36,32 +38,34 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
 
             NavigateToServiceCommand = new RelayCommand(_ => NavigationService.NavigateTo<ServiceViewModel>(), _ => true);
             WithdrawMoneyCommand = new RelayCommand(_ => WithdrawMoney(), _ => true);
-            NavigationService.NavigatedTo += LoadUserData;
-            
+
+            NavigationService.NavigatedTo += LoadData;
         }
 
-        private async void LoadUserData()
+        private async void LoadData()
         {
             var currentUser = _authService.CurrentUser;
             var card = _authService.CurrentCard;
+            var banknoteQuantity = await _storageService.GetBanknoteQuantity();
 
             UserFullName = $"{currentUser!.Name} {currentUser!.Surname}";
             UserBalance = card!.Cash;
             ATMBalance = await _storageService.GetStorageBalance();
+            BanknoteQuantity = new ObservableCollection<BanknoteQuantityDto>(banknoteQuantity);
         }
 
         private async void WithdrawMoney()
         {
             try
             {
-                _result = await _storageService.WithdrawMoneyBig(UserMoneyRequest);
+                _result = await _storageService.WithdrawMoneyBig(MoneyRequest);
                 if (_result != null && _result.Count > 0)
                 {
                     var message = "Выданные купюры:\n";
                     foreach (var banknote in _result)
-                    {
                         message += $"Номинал: {banknote.Denomination} - Количество: {banknote.Quantity}\n";
-                    }
+
+                    LoadData();
                     MessageBox.Show(message, "Выдача денег", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
@@ -73,6 +77,16 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
                 MessageBox.Show(ex.Message);
             }
             
+        }
+
+        public ObservableCollection<BanknoteQuantityDto> BanknoteQuantity
+        {
+            get => _banknoteQuantity;
+            set
+            {
+                _banknoteQuantity = value;
+                OnPropertyChanged(nameof(BanknoteQuantity));
+            }
         }
 
         public INavigationService NavigationService
@@ -115,13 +129,13 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
             }
         }
 
-        public int UserMoneyRequest
+        public int MoneyRequest
         {
-            get => _userMoneyRequest;
+            get => _moneyRequest;
             set
             {
-                _userMoneyRequest = Convert.ToInt32(value);
-                OnPropertyChanged(nameof(UserMoneyRequest));
+                _moneyRequest = Convert.ToInt32(value);
+                OnPropertyChanged(nameof(MoneyRequest));
             }
         }
     }

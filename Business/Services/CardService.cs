@@ -32,5 +32,10 @@ namespace CadwiseAutomaticTellerMachine.Business.Services
         {
             await _cardRepository.Update(card);
         }
+
+        public async Task IncreaseCash()
+        {
+            await _cardRepository.IncreaseCash();
+        }
     }
 }

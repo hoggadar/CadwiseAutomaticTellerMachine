@@ -1,6 +1,23 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <Style x:Key="TitleText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+
+    <Style x:Key="BaseText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+
+    <Style x:Key="MiniText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+
     <Style x:Key="NavButton" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
@@ -37,12 +54,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border MinWidth="50"
-                    Padding="18, 7"
-                    CornerRadius="12"
+                    Padding="12, 5"
+                    CornerRadius="6"
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}">
                         <TextBlock VerticalAlignment="Center"
-                           FontSize="22"
+                           FontSize="18"
                            FontWeight="Bold"
                            Foreground="White"
                            Text="{TemplateBinding Content}"/>
@@ -57,7 +74,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="CustomTextBox" TargetType="TextBox">
+    <Style x:Key="PrimaryTextBox" TargetType="TextBox">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Height" Value="35"/>
@@ -75,16 +92,16 @@
                       Width="{TemplateBinding Width}" 
                       SnapsToDevicePixels="True">
                         <Border x:Name="BackgroundBorder" 
-                            BorderThickness="2" 
-                            CornerRadius="4" 
-                            Background="{TemplateBinding Background}" 
-                            BorderBrush="{TemplateBinding BorderBrush}">
+                                BorderThickness="2" 
+                                CornerRadius="4" 
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}">
                         </Border>
                         <ScrollViewer x:Name="PART_ContentHost" 
-                                  BorderThickness="9" 
-                                  Padding="{TemplateBinding Padding}" 
-                                  IsTabStop="False" 
-                                  Background="Transparent">
+                                      BorderThickness="9" 
+                                      Padding="{TemplateBinding Padding}" 
+                                      IsTabStop="False" 
+                                      Background="Transparent">
                         </ScrollViewer>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -100,12 +117,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
-    <Style x:Key="BaseText" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Foreground" Value="White"/>
-    </Style>
-
+    
 </ResourceDictionary>

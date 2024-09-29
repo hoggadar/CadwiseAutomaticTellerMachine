@@ -6,5 +6,6 @@ namespace CadwiseAutomaticTellerMachine.MVVM.Interfaces
     {
         Task<CardModel?> GetByNumber(string number);
         Task<CardModel?> GetByUserId(int userId);
+        Task IncreaseCash();
     }
 }

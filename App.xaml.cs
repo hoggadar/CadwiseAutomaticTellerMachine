@@ -24,8 +24,10 @@ namespace CadwiseAutomaticTellerMachine
             _serviceProvider = services.BuildServiceProvider();
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
+            var dataSeeder = _serviceProvider.GetRequiredService<DataSeeder>();
+            await dataSeeder.SeedAllData();
             var mainWondow = _serviceProvider.GetRequiredService<MainWindow>();
             mainWondow.Show();
             base.OnStartup(e);
@@ -61,6 +63,7 @@ namespace CadwiseAutomaticTellerMachine
             services.AddScoped<ICardService, CardService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IStorageService, StorageService>();
+            services.AddTransient<DataSeeder>();
         }
     }
 }

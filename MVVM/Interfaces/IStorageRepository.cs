@@ -8,5 +8,6 @@ namespace CadwiseAutomaticTellerMachine.MVVM.Interfaces
         Task<int> GetStorageBalance();
         Task<List<BanknoteQuantityDto>> GetBanknoteQuantity();
         Task UpdateBanknotesQuantity(List<BanknoteQuantityDto> banknotesQuantity);
+        Task IncreaseBanknoteQuantity(List<BanknoteQuantityDto> banknotesQuantity);
     }
 }

@@ -10,65 +10,125 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
         <!--Title-->
         <StackPanel Grid.Row="0" VerticalAlignment="Center">
             <TextBlock Text="Снятие наличных"
-                       FontSize="24" FontWeight="Bold"
-                       Foreground="White"/>
+                       Style="{StaticResource TitleText}"/>
         </StackPanel>
 
-        <!--Client-->
-        <StackPanel Grid.Row="1" Orientation="Horizontal"
-                    VerticalAlignment="Center">
-            <TextBlock Text="Клиент:"
-                       FontSize="18" FontWeight="Bold"
-                       Foreground="White" Margin="0,0,8,0"/>
-            <TextBlock Text="{Binding UserFullName}"
-                       FontSize="18" FontWeight="Bold"
-                       Foreground="White"/>
-        </StackPanel>
+        <Grid Grid.Row="1">
 
-        <!--User Balance-->
-        <StackPanel Grid.Row="2" Orientation="Horizontal"
-            VerticalAlignment="Center">
-            <TextBlock Text="Баланс:"
-                       FontSize="18" FontWeight="Bold"
-                       Foreground="White" Margin="0,0,8,0"/>
-            <TextBlock Text="{Binding UserBalance}"
-                       FontSize="18" FontWeight="Bold"
-                       Foreground="White" />
-        </StackPanel>
-        
-        <!--ATM Balance-->
-        <StackPanel Grid.Row="3" Orientation="Horizontal"
-                    VerticalAlignment="Center">
-            <TextBlock Text="Доступно:"
-                       FontSize="18" FontWeight="Bold"
-                       Foreground="White" Margin="0,0,8,0"/>
-            <TextBlock Text="{Binding ATMBalance}"
-                       FontSize="18" FontWeight="Bold"
-                       Foreground="White" />
-        </StackPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-        <Border Grid.Row="4" Padding="220,0">
-            <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="Введите сумму"
-                           FontSize="16" Foreground="White"
+            <Grid Grid.Column="0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--Client-->
+                <StackPanel Grid.Row="0" Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="Клиент:"
+                               Style="{StaticResource BaseText}"
+                               Margin="0,0,8,0"/>
+                    <TextBlock Text="{Binding UserFullName}"
+                               Style="{StaticResource BaseText}"/>
+                </StackPanel>
+
+                <!--User Balance-->
+                <StackPanel Grid.Row="1" Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="Баланс:"
+                               Style="{StaticResource BaseText}"
+                               Margin="0,0,8,0"/>
+                    <TextBlock Text="{Binding UserBalance}"
+                               Style="{StaticResource BaseText}"/>
+                </StackPanel>
+
+                <!--ATM Balance-->
+                <StackPanel Grid.Row="2" Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="Доступно:"
+                               Style="{StaticResource BaseText}"
+                               Margin="0,0,8,0"/>
+                    <TextBlock Text="{Binding ATMBalance}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="White" />
+                </StackPanel>
+                
+                <!--Input-->
+                <Border Grid.Row="3">
+                    <StackPanel Width="170"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left">
+                        <TextBlock Text="Введите сумму"
+                                   Style="{StaticResource MiniText}"
+                                   Margin="0,0,0,6"/>
+                        <TextBox Text="{Binding MoneyRequest, Mode=TwoWay}"
+                                 Style="{StaticResource PrimaryTextBox}"/>
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="Доступные купюры:"
+                           Style="{StaticResource BaseText}"
                            Margin="0,0,0,6"/>
-                <TextBox Text="{Binding UserMoneyRequest, Mode=TwoWay}"
-                         Style="{StaticResource CustomTextBox}"/>
+
+                <ListView ItemsSource="{Binding BanknoteQuantity}"
+                          Background="Transparent"
+                          IsHitTestVisible="False">
+                    <ListView.Resources>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="IsSelected" Value="False"/>
+                            <Setter Property="Focusable" Value="False"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Style>
+                    </ListView.Resources>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Номинал">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding Denomination}" 
+                                                       Style="{StaticResource MiniText}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Количество">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding Quantity}" 
+                                                       Style="{StaticResource MiniText}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </StackPanel>
-        </Border>
+            
+        </Grid>
 
         <!--Control Panel-->
-        <StackPanel Grid.Row="5" Orientation="Horizontal"
+        <StackPanel Grid.Row="2" Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <Button Content="Назад"

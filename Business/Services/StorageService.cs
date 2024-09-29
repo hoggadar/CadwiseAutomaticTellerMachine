@@ -71,5 +71,15 @@ namespace CadwiseAutomaticTellerMachine.Business.Services
 
             return result;
         }
+
+        //public async Task<List<BanknoteQuantityDto>> WithdrawSmall(int moneyRequest)
+        //{
+
+        //}
+
+        public async Task IncreaseBanknoteQuantity(List<BanknoteQuantityDto> banknotesQuantity)
+        {
+            await _storageRepository.IncreaseBanknoteQuantity(banknotesQuantity);
+        }
     }
 }

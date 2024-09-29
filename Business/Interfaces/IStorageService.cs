@@ -9,6 +9,7 @@ namespace CadwiseAutomaticTellerMachine.Business.Interfaces
         Task<List<BanknoteQuantityDto>> GetBanknoteQuantity();
 
         Task<List<BanknoteQuantityDto>> WithdrawMoneyBig(int moneyRequest);
-        //Task<Dictionary<BanknoteModel, int>> WithdrawSmall(int amount);
+        //Task<List<BanknoteQuantityDto>> WithdrawSmall(int moneyRequest);
+        Task IncreaseBanknoteQuantity(List<BanknoteQuantityDto> banknotesQuantity);
     }
 }

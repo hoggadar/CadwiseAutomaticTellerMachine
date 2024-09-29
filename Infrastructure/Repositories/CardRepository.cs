@@ -18,5 +18,13 @@ namespace CadwiseAutomaticTellerMachine.Infrastructure.Repositories
         {
             return await _context.Set<CardModel>().FirstOrDefaultAsync(x => x.UserId == userId);
         }
+
+        public async Task IncreaseCash()
+        {
+            var cards = await GetAll();
+            foreach (var card in cards) card.Cash += 17850;
+            _context.Cards.UpdateRange(cards);
+            await _context.SaveChangesAsync();
+        }
     }
 }
