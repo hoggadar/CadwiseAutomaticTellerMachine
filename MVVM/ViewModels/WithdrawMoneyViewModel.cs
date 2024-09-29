@@ -51,7 +51,9 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
             UserFullName = $"{currentUser!.Name} {currentUser!.Surname}";
             UserBalance = card!.Cash;
             ATMBalance = await _storageService.GetStorageBalance();
-            BanknoteQuantity = new ObservableCollection<BanknoteQuantityDto>(banknoteQuantity);
+            MoneyRequest = 0;
+            _banknoteQuantity.Clear();
+            foreach(var item in banknoteQuantity) _banknoteQuantity.Add(item);
         }
 
         private async void WithdrawMoney()

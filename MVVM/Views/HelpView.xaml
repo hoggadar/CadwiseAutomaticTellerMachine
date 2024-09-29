@@ -5,9 +5,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CadwiseAutomaticTellerMachine.MVVM.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="468" d:DesignWidth="650">
     <Grid>
-        <TextBlock Text="Help"
-                   Foreground="White"/>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <!--Title-->
+        <StackPanel Grid.Row="0" VerticalAlignment="Center">
+            <TextBlock Text="Синтетические данные"
+                       Style="{StaticResource TitleText}"/>
+        </StackPanel>
+
+        <!--Control Panel-->
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Button Content="Cash"
+                    Style="{StaticResource PrimaryButton}"
+                    Margin="0,0,10,0"
+                    Command="{Binding IncreaseCashCommand}"/>
+            <Button Content="Banknotes"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding IncreaseBanknoteCommand}"/>
+        </StackPanel>
+        
     </Grid>
 </UserControl>
