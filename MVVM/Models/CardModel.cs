@@ -17,7 +17,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.Models
         public string PIN { get; set; } = string.Empty;
 
         [Required]
-        public int Cash { get; set; }
+        public long Cash { get; set; }
 
         [ForeignKey("UserId")]
         public int UserId { get; set; }

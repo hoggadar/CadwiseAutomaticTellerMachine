@@ -16,7 +16,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
 
         private ObservableCollection<BanknoteQuantityDto> _banknoteQuantity;
         private string _userFullName;
-        private int _userBalance;
+        private long _userBalance;
         private int _atmBalance;
         private string _moneyRequest;
         private bool _isSmallBills;
@@ -63,8 +63,8 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
         {
             try
             {
-                int money = int.Parse(_moneyRequest);
-                if (money % 10 != 0) throw new ArgumentException("Сумма должна быть кратна 10");
+                long money = long.Parse(_moneyRequest);
+                if (money <= 0 || money % 10 != 0) throw new ArgumentException("Сумма должна быть больше нуля и кратна 10");
 
                 if (_isSmallBills) _result = await _storageService.WithdrawMoneySmall(money);
                 else _result = await _storageService.WithdrawMoneyBig(money);
@@ -127,7 +127,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
             }
         }
 
-        public int UserBalance
+        public long UserBalance
         {
             get => _userBalance;
             set

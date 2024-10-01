@@ -11,7 +11,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
         private IAuthService _authService;
 
         private string _userFullName;
-        private int _userBalance;
+        private long _userBalance;
 
         public ICommand NavigateToServiceCommand { get; }
 
@@ -56,7 +56,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
             }
         }
 
-        public int UserBalance
+        public long UserBalance
         {
             get => _userBalance;
             set

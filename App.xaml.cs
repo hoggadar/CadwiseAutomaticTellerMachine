@@ -55,7 +55,7 @@ namespace CadwiseAutomaticTellerMachine
             });
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseNpgsql("Server=localhost;Port=5432;Database=atm;Username=admin;Password=admin");
+                options.UseNpgsql("Server=localhost;Port=5433;Database=atm;Username=admin;Password=admin123");
             });
             services.AddScoped<ICardRepository, CardRepository>();
             services.AddScoped<IUserRepository, UserRepository>();

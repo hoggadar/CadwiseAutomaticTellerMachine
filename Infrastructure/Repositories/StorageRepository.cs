@@ -41,7 +41,7 @@ namespace CadwiseAutomaticTellerMachine.Infrastructure.Repositories
 
                 var diff = storage!.Quantity - banknoteQuantity.Quantity;
 
-                if (storage != null && diff > 0)
+                if (storage != null && diff >= 0)
                 {
                     storage.Quantity -= banknoteQuantity.Quantity;
                     await Update(storage);

@@ -27,9 +27,9 @@ namespace CadwiseAutomaticTellerMachine.Business.Services
             return await _storageRepository.GetBanknoteQuantity();
         }
 
-        public async Task<List<BanknoteQuantityDto>> WithdrawMoneyBig(int moneyRequest)
+        public async Task<List<BanknoteQuantityDto>> WithdrawMoneyBig(long moneyRequest)
         {
-            int temp = moneyRequest;
+            long temp = moneyRequest;
 
             await ValidateMoneyRequest(moneyRequest);
 
@@ -49,15 +49,14 @@ namespace CadwiseAutomaticTellerMachine.Business.Services
             return result;
         }
 
-        public async Task<List<BanknoteQuantityDto>> WithdrawMoneySmall(int moneyRequest)
+        public async Task<List<BanknoteQuantityDto>> WithdrawMoneySmall(long moneyRequest)
         {
             await ValidateMoneyRequest(moneyRequest);
 
             var result = new List<BanknoteQuantityDto>();
-            var banknoteQuantity = await _storageRepository.GetBanknoteQuantity();
-            var allDenominations = banknoteQuantity.OrderByDescending(x => x.Denomination).ToList();
+            var allDenominations = await _storageRepository.GetBanknoteQuantity();
             var smallDenominations = allDenominations.Where(x => x.Denomination <= 500).ToList();
-            int requestSmall = 0, requestBig = 0;
+            long requestSmall = 0, requestBig = 0;
 
             if (moneyRequest <= 1000)
             {
@@ -65,17 +64,25 @@ namespace CadwiseAutomaticTellerMachine.Business.Services
             }
             else
             {
-                int remainder = moneyRequest % 1000;
+                int remainder = (int)(moneyRequest % 1000);
                 requestSmall = (remainder == 0) ? 1000 : remainder + 1000;
                 requestBig = moneyRequest - requestSmall;
 
                 requestSmall = ProcessWithdraw(smallDenominations, requestSmall, result);
+
+                foreach(var item in result)
+                {
+                    var temp = allDenominations.First(x => x.Denomination == item.Denomination);
+                    temp.Denomination -= item.Denomination;
+                }
+
                 requestBig = ProcessWithdraw(allDenominations, requestBig, result);
             }
 
             if (requestBig > 0 || requestSmall > 0)
             {
                 result.Clear();
+                allDenominations = await _storageRepository.GetBanknoteQuantity();
                 requestBig = ProcessWithdraw(allDenominations, moneyRequest, result);
                 if (requestBig > 0)
                     throw new InvalidOperationException("Недостаточно средств для выдачи запрашиваемой суммы");
@@ -90,13 +97,15 @@ namespace CadwiseAutomaticTellerMachine.Business.Services
             return result;
         }
 
-        public int ProcessWithdraw(List<BanknoteQuantityDto> denominations, int request, List<BanknoteQuantityDto> result)
+        public long ProcessWithdraw(List<BanknoteQuantityDto> denominations, long request, List<BanknoteQuantityDto> result)
         {
             foreach (var banknote in denominations)
             {
                 if (request == 0) break;
 
-                int max = Math.Min(request / banknote.Denomination, banknote.Quantity);
+                if (banknote.Denomination == 0) continue;
+
+                int max = Math.Min((int)(request / banknote.Denomination), banknote.Quantity);
                 if (max > 0)
                 {
                     result.Add(new BanknoteQuantityDto
@@ -110,11 +119,8 @@ namespace CadwiseAutomaticTellerMachine.Business.Services
             return request;
         }
 
-        public async Task ValidateMoneyRequest(int moneyRequest)
+        public async Task ValidateMoneyRequest(long moneyRequest)
         {
-            if (moneyRequest <= 0)
-                throw new ArgumentException("Сумма должна быть положительной");
-
             if (moneyRequest > _authService.CurrentCard!.Cash)
                 throw new ArgumentException("На вашей карте недостаточно средств");
 
