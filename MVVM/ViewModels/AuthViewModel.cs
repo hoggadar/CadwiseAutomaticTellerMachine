@@ -41,7 +41,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
             }
             else
             {
-                MessageBox.Show("Некорректный номер или pin карты");
+                MessageBox.Show("Некорректный номер или pin карты", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

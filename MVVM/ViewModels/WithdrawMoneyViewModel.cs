@@ -18,7 +18,8 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
         private string _userFullName;
         private int _userBalance;
         private int _atmBalance;
-        private int _moneyRequest;
+        private string _moneyRequest;
+        private bool _isSmallBills;
         private List<BanknoteQuantityDto> _result;
 
         public ICommand NavigateToServiceCommand { get; }
@@ -34,6 +35,8 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
             _userFullName = string.Empty;
             _userBalance = 0;
             _atmBalance = 0;
+            _moneyRequest = "0";
+            _isSmallBills = false;
             _result = new List<BanknoteQuantityDto>();
 
             NavigateToServiceCommand = new RelayCommand(_ => NavigationService.NavigateTo<ServiceViewModel>(), _ => true);
@@ -51,7 +54,7 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
             UserFullName = $"{currentUser!.Name} {currentUser!.Surname}";
             UserBalance = card!.Cash;
             ATMBalance = await _storageService.GetStorageBalance();
-            MoneyRequest = 0;
+            MoneyRequest = "0";
             _banknoteQuantity.Clear();
             foreach(var item in banknoteQuantity) _banknoteQuantity.Add(item);
         }
@@ -60,7 +63,12 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
         {
             try
             {
-                _result = await _storageService.WithdrawMoneyBig(MoneyRequest);
+                int money = int.Parse(_moneyRequest);
+                if (money % 10 != 0) throw new ArgumentException("Сумма должна быть кратна 10");
+
+                if (_isSmallBills) _result = await _storageService.WithdrawMoneySmall(money);
+                else _result = await _storageService.WithdrawMoneyBig(money);
+
                 if (_result != null && _result.Count > 0)
                 {
                     var message = "Выданные купюры:\n";
@@ -72,13 +80,21 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("Не удалось выдать деньги. Проверьте сумму или наличие купюр.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Не удалось выдать деньги. Проверьте сумму или наличие купюр", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
             }
-            
+            catch (FormatException)
+            {
+                MessageBox.Show("Указана некорректная сумма", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public ObservableCollection<BanknoteQuantityDto> BanknoteQuantity
@@ -131,13 +147,23 @@ namespace CadwiseAutomaticTellerMachine.MVVM.ViewModels
             }
         }
 
-        public int MoneyRequest
+        public string MoneyRequest
         {
             get => _moneyRequest;
             set
             {
-                _moneyRequest = Convert.ToInt32(value);
+                _moneyRequest = value;
                 OnPropertyChanged(nameof(MoneyRequest));
+            }
+        }
+
+        public bool IsSmallBills
+        {
+            get => _isSmallBills;
+            set
+            {
+                _isSmallBills = value;
+                OnPropertyChanged(nameof(IsSmallBills));
             }
         }
     }

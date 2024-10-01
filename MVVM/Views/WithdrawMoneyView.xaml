@@ -77,6 +77,13 @@
                                    Margin="0,0,0,6"/>
                         <TextBox Text="{Binding MoneyRequest, Mode=TwoWay}"
                                  Style="{StaticResource PrimaryTextBox}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsSmallBills}"
+                                      VerticalAlignment="Center"
+                                      Margin="0,2,4,0"/>
+                            <TextBlock Text="Выдать разменом"
+                                       Style="{StaticResource MiniText}"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
 
