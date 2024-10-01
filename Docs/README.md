@@ -114,7 +114,7 @@
 
 1. Установить Docker Desktop
 
-2. Авторизироваться в Docker: docker login
+2. Авторизоваться в Docker: docker login
 
 3. Запуск контейнера: docker run --name my_postgres -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin123 -e POSTGRES_DB=atm -d -p 5433:5432 postgres:latest
 
